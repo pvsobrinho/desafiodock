@@ -1,6 +1,5 @@
 package net.desafio.springboot2.dock.interfaceService;
 
-import net.desafio.springboot2.dock.model.Conta;
 import net.desafio.springboot2.dock.model.Transacao;
 
 import java.util.List;
