@@ -1,11 +1,14 @@
 # desafiodock
+*Instruções para configuração do ambiente e manual do sistema consulte os arquivos pdf na raíz do diretório.*
+
+
+INSTRUÇÕES:
 
 Desafio Processo Seletivo Dock - Desenvolvedor 
 
 Desafio Técnico
 Nós trabalhamos com meios de pagamento e nada melhor do que um bom sistema para gestão de contas:
 
-Instruções para configuração do ambiente e manual do sistema consulte os arquivos pdf na raíz do diretório.
 
 Pré-requisitos:
 
