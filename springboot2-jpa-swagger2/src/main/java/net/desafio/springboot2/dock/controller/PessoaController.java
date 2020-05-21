@@ -20,6 +20,7 @@ public class PessoaController {
 
     @ApiOperation(value = "Cadastrar Cliente")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Operação Realizada com Sucesso."),
+            @ApiResponse(code = 400, message = "Formato incompatível."),
             @ApiResponse(code = 401, message = "Você não possui autorização para acessar este recurso."),
             @ApiResponse(code = 403, message = "Acesso bloqueado ao recurso solicitado."),
             @ApiResponse(code = 404, message = "O recurso que esta tentando acessar não está disponível."),
@@ -35,6 +36,7 @@ public class PessoaController {
 
     @ApiOperation(value = "Obter pessoa por Id ")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Operação Realizada com Sucesso."),
+            @ApiResponse(code = 400, message = "Formato incompatível."),
             @ApiResponse(code = 401, message = "Você não possui autorização para acessar este recurso."),
             @ApiResponse(code = 403, message = "Acesso bloqueado ao recurso solicitado."),
             @ApiResponse(code = 404, message = "O recurso que esta tentando acessar não está disponível."),

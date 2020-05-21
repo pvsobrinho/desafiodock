@@ -28,6 +28,4 @@ public interface IContaService  {
 
     Conta updateConta(Long idConta, Conta contaDetails) throws ResourceNotFoundException;
 
-    Map<String, Boolean> deleteConta(Long idConta ) throws ResourceNotFoundException;
-
 }

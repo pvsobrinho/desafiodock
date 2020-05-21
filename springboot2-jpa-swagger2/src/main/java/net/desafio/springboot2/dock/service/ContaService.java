@@ -4,16 +4,16 @@ import net.desafio.springboot2.dock.exception.ResourceNotFoundException;
 import net.desafio.springboot2.dock.interfaceService.IContaService;
 import net.desafio.springboot2.dock.model.Conta;
 import net.desafio.springboot2.dock.model.Pessoa;
+import net.desafio.springboot2.dock.model.PessoaConta;
 import net.desafio.springboot2.dock.model.Transacao;
 import net.desafio.springboot2.dock.repository.ContaRepository;
+import net.desafio.springboot2.dock.repository.PessoaContaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @Service
@@ -21,6 +21,9 @@ public class ContaService implements IContaService {
 
     @Autowired
     private ContaRepository contaRepository;
+
+    @Autowired
+    private PessoaContaRepository pessoaContaRepository;
 
     @Autowired
     private  PessoaService pessoaService;
@@ -132,7 +135,14 @@ public class ContaService implements IContaService {
     public Conta save(Conta conta) throws ResourceNotFoundException {
         Pessoa pessoa = new Pessoa();
         pessoa = pessoaService.findByIdPessoa(conta.getIdPessoa());
-        return contaRepository.save(conta);
+        Conta contaNova = new Conta();
+        contaNova =  contaRepository.save(conta);
+        PessoaConta pessoaConta = new PessoaConta();
+        pessoaConta.setIdConta(contaNova.getIdConta());
+        pessoaConta.setIdPessoa(pessoa.getIdPessoa());
+        pessoaContaRepository.save(pessoaConta);
+
+        return contaNova;
     }
 
     /**
@@ -150,23 +160,6 @@ public class ContaService implements IContaService {
         conta.setIdPessoa(contaDetails.getIdPessoa());
         final Conta updatedConta = contaRepository.save(conta);
         return updatedConta;
-    }
-
-    /**
-     *
-     * @param idConta
-     * @return Map<String, Boolean>
-     * @throws ResourceNotFoundException
-     */
-    public Map<String, Boolean> deleteConta(Long idConta ) throws ResourceNotFoundException {
-        Conta conta = contaRepository.findById(idConta)
-                .orElseThrow(() -> new ResourceNotFoundException("Conta não encontrada para o id :: " + idConta));
-
-        contaRepository.delete(conta);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("Conta removida", Boolean.TRUE);
-        return response;
-
     }
 
     /**

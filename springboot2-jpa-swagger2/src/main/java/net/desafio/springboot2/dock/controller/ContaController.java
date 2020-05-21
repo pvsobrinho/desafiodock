@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/dock/conta")
@@ -23,6 +22,7 @@ public class ContaController {
 
 	@ApiOperation(value = "Visualizar a lista de contas", response = List.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operação Realizada com Sucesso."),
+			@ApiResponse(code = 400, message = "Formato incompatível."),
 			@ApiResponse(code = 401, message = "Você não possui autorização para acessar este recurso."),
 			@ApiResponse(code = 403, message = "Acesso bloqueado ao recurso solicitado."),
 			@ApiResponse(code = 404, message = "O recurso que esta tentando acessar não está disponível."),
@@ -34,6 +34,7 @@ public class ContaController {
 
 	@ApiOperation(value = "Obter conta por Id - consulta limite de saque e Saldo")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operação Realizada com Sucesso."),
+			@ApiResponse(code = 400, message = "Formato incompatível."),
 			@ApiResponse(code = 401, message = "Você não possui autorização para acessar este recurso."),
 			@ApiResponse(code = 403, message = "Acesso bloqueado ao recurso solicitado."),
 			@ApiResponse(code = 404, message = "O recurso que esta tentando acessar não está disponível."),
@@ -49,6 +50,7 @@ public class ContaController {
 
 	@ApiOperation(value = "Obter saldo da conta por Id - consulta limite de saque e Saldo")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operação Realizada com Sucesso."),
+			@ApiResponse(code = 400, message = "Formato incompatível."),
 			@ApiResponse(code = 401, message = "Você não possui autorização para acessar este recurso."),
 			@ApiResponse(code = 403, message = "Acesso bloqueado ao recurso solicitado."),
 			@ApiResponse(code = 404, message = "O recurso que esta tentando acessar não está disponível."),
@@ -64,13 +66,14 @@ public class ContaController {
 
 	@ApiOperation(value = "Realiza o saque da conta por IdConta")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operação Realizada com Sucesso."),
+			@ApiResponse(code = 400, message = "Formato incompatível."),
 			@ApiResponse(code = 401, message = "Você não possui autorização para acessar este recurso."),
 			@ApiResponse(code = 403, message = "Acesso bloqueado ao recurso solicitado."),
 			@ApiResponse(code = 404, message = "O recurso que esta tentando acessar não está disponível."),
 			@ApiResponse(code = 500, message = "Ocorreu um erro em sua solicitação. Tente mais tarde.")})
 	@PutMapping("/saqueValor/{valorDebitar}/numeroConta/{idConta}")
 	public String saqueContaById(
-			@ApiParam(value = "ID da conta da qual o objeto da conta será recuperado", required = true)
+			@ApiParam(value = "Valor de Depósito e Numero da conta que será efetuado o Saque", required = true)
 			@PathVariable(value = "idConta") Long idConta,
 			@PathVariable(value = "valorDebitar") BigDecimal valorDebitar)
 			throws Exception {
@@ -80,13 +83,14 @@ public class ContaController {
 
 	@ApiOperation(value = "Realiza o deposito em uma conta por IdConta")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operação Realizada com Sucesso."),
+			@ApiResponse(code = 400, message = "Formato incompatível."),
 			@ApiResponse(code = 401, message = "Você não possui autorização para acessar este recurso."),
 			@ApiResponse(code = 403, message = "Acesso bloqueado ao recurso solicitado."),
 			@ApiResponse(code = 404, message = "O recurso que esta tentando acessar não está disponível."),
 			@ApiResponse(code = 500, message = "Ocorreu um erro em sua solicitação. Tente mais tarde.")})
 	@PutMapping("/depositoValor/{valorCreditar}/numeroConta/{idConta}")
 	public String depositoContaById(
-			@ApiParam(value = "ID da conta da qual o objeto da conta será recuperado", required = true)
+			@ApiParam(value = "Valor de Depósito e Numero da conta que será efetuado o Deposito", required = true)
 			@PathVariable(value = "idConta") Long idConta,
 			@PathVariable(value = "valorCreditar") BigDecimal valorCreditar)
 			throws Exception {
@@ -96,6 +100,7 @@ public class ContaController {
 
 	@ApiOperation(value = "Criar conta")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operação Realizada com Sucesso."),
+			@ApiResponse(code = 400, message = "Formato incompatível."),
 			@ApiResponse(code = 401, message = "Você não possui autorização para acessar este recurso."),
 			@ApiResponse(code = 403, message = "Acesso bloqueado ao recurso solicitado."),
 			@ApiResponse(code = 404, message = "O recurso que esta tentando acessar não está disponível."),
@@ -110,6 +115,7 @@ public class ContaController {
 
 	@ApiOperation(value = "Atualizar conta")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operação Realizada com Sucesso."),
+			@ApiResponse(code = 400, message = "Formato incompatível."),
 			@ApiResponse(code = 401, message = "Você não possui autorização para acessar este recurso."),
 			@ApiResponse(code = 403, message = "Acesso bloqueado ao recurso solicitado."),
 			@ApiResponse(code = 404, message = "O recurso que esta tentando acessar não está disponível."),
@@ -124,24 +130,10 @@ public class ContaController {
 		return ResponseEntity.ok(contaService.updateConta(idConta, contaDetails));
 	}
 
-	@ApiOperation(value = "Remover conta")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operação Realizada com Sucesso."),
-			@ApiResponse(code = 401, message = "Você não possui autorização para acessar este recurso."),
-			@ApiResponse(code = 403, message = "Acesso bloqueado ao recurso solicitado."),
-			@ApiResponse(code = 404, message = "O recurso que esta tentando acessar não está disponível."),
-			@ApiResponse(code = 500, message = "Ocorreu um erro em sua solicitação. Tente mais tarde.")})
-	@DeleteMapping("/remover/{idConta}")
-	public Map<String, Boolean> deleteConta(
-			@ApiParam(value = "Remover a conta por id", required = true)
-			@PathVariable(value = "idConta") Long idConta)
-			throws ResourceNotFoundException {
-
-		return contaService.deleteConta(idConta);
-	}
-
 
 	@ApiOperation(value = "Desativar uma conta por idConta")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Desativado. Operação Realizada com Sucesso."),
+			@ApiResponse(code = 400, message = "Formato incompatível."),
 			@ApiResponse(code = 401, message = "Você não possui autorização para acessar este recurso."),
 			@ApiResponse(code = 403, message = "Acesso bloqueado ao recurso solicitado."),
 			@ApiResponse(code = 404, message = "O recurso que esta tentando acessar não está disponível."),
@@ -157,6 +149,7 @@ public class ContaController {
 
 	@ApiOperation(value = "Ativar uma conta por idConta")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ativado. Operação Realizada com Sucesso."),
+			@ApiResponse(code = 400, message = "Formato incompatível."),
 			@ApiResponse(code = 401, message = "Você não possui autorização para acessar este recurso."),
 			@ApiResponse(code = 403, message = "Acesso bloqueado ao recurso solicitado."),
 			@ApiResponse(code = 404, message = "O recurso que esta tentando acessar não está disponível."),
