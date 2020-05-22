@@ -2,15 +2,14 @@ package net.desafio.springboot2.dock.controller;
 
 import io.swagger.annotations.*;
 import net.desafio.springboot2.dock.exception.ResourceNotFoundException;
+import net.desafio.springboot2.dock.interfaceService.ITransacaoService;
 import net.desafio.springboot2.dock.model.Transacao;
-import net.desafio.springboot2.dock.service.TransacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -19,7 +18,7 @@ import java.util.List;
 public class TransacaoController {
 
     @Autowired
-    TransacaoService transacaoService;
+    ITransacaoService transacaoService;
 
     @ApiOperation(value = "Visualizar a lista de  transacoes de uma conta", response = List.class)
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Operação Realizada com Sucesso."),

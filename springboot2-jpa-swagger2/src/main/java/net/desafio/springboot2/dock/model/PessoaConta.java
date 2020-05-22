@@ -16,7 +16,7 @@ public class PessoaConta {
     @ApiModelProperty(notes = "ID do usuario")
     private long idConta;
 
-    @ApiModelProperty(notes = "ID do usuario")
+    @ApiModelProperty(notes = "ID da pessoa")
     private long idPessoa;
 
     public PessoaConta(){}
