@@ -44,14 +44,13 @@ public class TransacaoController {
             @ApiResponse(code = 403, message = "Acesso bloqueado ao recurso solicitado."),
             @ApiResponse(code = 404, message = "O recurso que esta tentando acessar não está disponível."),
             @ApiResponse(code = 500, message = "Ocorreu um erro em sua solicitação. Tente mais tarde.")})
-    @GetMapping("/listarByIdContaByPeriodo/{idConta}")
+    @GetMapping("/listarByIdContaByPeriodo/{idConta}/periodoInicial/{periodoInicial}/periodoFinal/{periodoFinal}")
     public List<Transacao> getTransacoesByIdConta(
             @ApiParam(value = "ID da conta da qual o objeto da Transacao será recuperado", required = true)
             @PathVariable(value = "idConta") Long idConta,
-            @PathVariable(value = "periodoInicial") Date periodoInicial,
-            @PathVariable(value = "periodoFinal") Date periodoFinal)
-            throws ResourceNotFoundException {
-
-        return transacaoService.findByIdConta(idConta);
+            @PathVariable(value = "periodoInicial") String periodoInicial,
+            @PathVariable(value = "periodoFinal") String periodoFinal)
+            throws Exception {
+        return transacaoService.findByDataTransacaoAfterAndDataTransacaoBefore(periodoInicial, periodoFinal);
     }
 }
